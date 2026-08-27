@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TECHNOVA | Premium Tech Store</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700;900&family=Montserrat:wght@800&display=swap" rel="stylesheet">
+    <!-- GSAP para animações Ultra HD -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+</head>
+<body>
+
+    <!-- Custom Cursor -->
+    <div class="cursor"></div>
+
+    <nav class="navbar">
+        <div class="logo">TECH<span>NOVA</span></div>
+        <ul class="nav-links">
+            <li><a href="#home">Home</a></li>
+            <li><a href="#products">Produtos</a></li>
+            <li><a href="#about">Inovação</a></li>
+        </ul>
+        <div class="cart-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+            <span id="cart-count">0</span>
+        </div>
+    </nav>
+
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <h1 class="reveal">O FUTURO É <br><span class="gradient-text">AGORA.</span></h1>
+            <p class="reveal">Experiências tecnológicas de alta performance com design ultra-refinado.</p>
+            <button class="cta-button">Explorar Coleção</button>
+        </div>
+        <div class="hero-image reveal">
+            <img src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&q=80&w=800" alt="Hardware Premium">
+        </div>
+    </section>
+
+    <section id="products" class="product-grid">
+        <h2 class="section-title">Hardware de Elite</h2>
+        <div class="container" id="product-container">
+            <!-- Injetado via JS -->
+        </div>
+    </section>
+
+    <!-- AI Chat Widget -->
+    <div class="ai-chat-wrapper" id="aiChat">
+        <div class="chat-header">
+            <div class="status-dot"></div>
+            <span>Suporte Gemini AI</span>
+            <button onclick="toggleChat()">×</button>
+        </div>
+        <div class="chat-messages" id="chatMessages">
+            <div class="msg bot">Olá! Sou seu assistente TechNova. Como posso ajudar você com nossos produtos hoje?</div>
+        </div>
+        <div class="chat-input-area">
+            <input type="text" id="userInput" placeholder="Pergunte sobre um produto...">
+            <button id="sendBtn">Enviar</button>
+        </div>
+    </div>
+
+    <button class="chat-toggle" onclick="toggleChat()">
+        <img src="https://cdn-icons-png.flaticon.com/512/4712/4712035.png" alt="AI Support">
+    </button>
+
+    <script src="script.js"></script>
+</body>
+</html>
