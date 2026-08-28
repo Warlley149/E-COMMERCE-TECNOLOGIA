@@ -1,0 +1,36 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+export async function getStaticPaths() {
+  const products = [
+    { id: 'nova-book', name: "NOVA BOOK ULTRA", price: "R$ 18.900,00", desc: "Hardware quântico.", img: "https://images.unsplash.com/photo-1525547719571-a2d4ac8945e2?q=80&w=1000" },
+    { id: 'quantum-gpu', name: "QUANTUM GPU X", price: "R$ 7.500,00", desc: "Placa de vídeo imersiva.", img: "https://images.unsplash.com/photo-1591488320449-011701bb6704?q=80&w=1000" },
+    { id: 'cyber-watch', name: "CYBER WATCH S", price: "R$ 3.200,00", desc: "Relógio neural.", img: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?q=80&w=1000" }
+  ];
+  return products.map(p => ({ params: { id: p.id }, props: { product: p } }));
+}
+const { product } = Astro.props;
+---
+<BaseLayout>
+	<main class="detail-page">
+		<div class="container">
+			<img src={product.img} class="detail-img" />
+			<div class="content">
+				<h1>{product.name}</h1>
+				<p class="price">{product.price}</p>
+				<p class="desc">{product.desc}</p>
+				<button class="buy-now" onclick={`addToCart('${product.name}', '${product.price}')`}>ADQUIRIR AGORA</button>
+			</div>
+		</div>
+	</main>
+</BaseLayout>
+
+<style>
+	.detail-page { padding: 150px 5%; min-height: 100vh; display: flex; align-items: center; }
+	.container { display: flex; gap: 80px; align-items: center; }
+	.detail-img { width: 50%; border-radius: 40px; box-shadow: 0 0 50px rgba(0,242,255,0.2); }
+	h1 { font-size: 5rem; font-weight: 900; letter-spacing: -4px; line-height: 0.9; }
+	.price { font-size: 2rem; color: var(--accent); margin: 20px 0; }
+	.desc { color: #888; margin-bottom: 40px; }
+	.buy-now { padding: 25px 50px; background: white; border: none; font-weight: 900; letter-spacing: 2px; width: 100%; }
+</style>

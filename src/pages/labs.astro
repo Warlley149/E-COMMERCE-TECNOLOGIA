@@ -1,0 +1,49 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout>
+	<main class="labs-page">
+		<section class="labs-hero">
+			<div class="glitch-wrapper">
+				<h1 class="labs-title" data-text="TECHNOVA LABS">TECHNOVA LABS</h1>
+			</div>
+			<p class="labs-subtitle">Área de prototipagem e experimentação quântica.</p>
+		</section>
+
+		<section class="experiment-area">
+			<div class="exp-card magnetic">
+				<div class="exp-icon">⚛️</div>
+				<h3>Projeto Neural-X</h3>
+				<p>Interface cérebro-computador em fase beta.</p>
+				<div class="status-bar"><div class="progress"></div></div>
+			</div>
+			<!-- Adicione mais experimentos -->
+		</section>
+	</main>
+</Layout>
+
+<style>
+	.labs-page { background: #000; padding-top: 150px; overflow: hidden; }
+	.labs-hero { height: 60vh; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+	
+	.labs-title { font-size: 6rem; font-weight: 900; color: transparent; -webkit-text-stroke: 1px var(--accent); position: relative; }
+	.labs-title::after { content: attr(data-text); position: absolute; left: 0; top: 0; color: var(--accent); clip-path: inset(50% 0 0 0); animation: glitch 4s infinite; }
+	
+	@keyframes glitch {
+		0% { transform: translate(0); }
+		20% { transform: translate(-5px, 5px); }
+		40% { transform: translate(-5px, -5px); }
+		60% { transform: translate(5px, 5px); }
+		80% { transform: translate(5px, -5px); }
+		100% { transform: translate(0); }
+	}
+
+	.experiment-area { display: flex; justify-content: center; gap: 50px; padding: 100px 5%; }
+	.exp-card { 
+		width: 300px; padding: 40px; background: rgba(255,255,255,0.02); 
+		border: 1px solid rgba(0,242,255,0.2); border-radius: 20px; text-align: center;
+	}
+	.status-bar { width: 100%; height: 2px; background: #111; margin-top: 20px; }
+	.progress { width: 65%; height: 100%; background: var(--accent); box-shadow: 0 0 10px var(--accent); }
+</style>

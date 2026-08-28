@@ -36,8 +36,9 @@
 		<nav class="navbar">
 			<div class="logo">TECH<span>NOVA</span></div>
 			<div class="nav-links">
-				<a href="#grid" class="nav-item magnetic">SHOP</a>
-				<a href="#" class="nav-item magnetic">LABS</a>
+				<a href="/" class="nav-item magnetic">HOME</a>
+				<a href="/shop" class="nav-item magnetic">SHOP</a>
+				<a href="/labs" class="nav-item magnetic">LABS</a>
 			</div>
 			<button class="cart-trigger magnetic" id="open-cart">
 				CART [<span id="cart-count">0</span>]
@@ -51,7 +52,7 @@
 					<h1 class="reveal-text">TECH</h1>
 					<h1 class="reveal-text gradient">PERFORMANCE</h1>
 					<p class="hero-subtext">Engenharia quântica e design minimalista em um único ecossistema funcional.</p>
-					<button class="cta-primary magnetic" onclick="document.getElementById('grid').scrollIntoView({behavior:'smooth'})">
+					<button class="cta-primary magnetic" onclick="window.location.href='/shop'">
 						EXPLORAR PRODUTOS <span class="arrow">↓</span>
 					</button>
 				</div>
@@ -363,6 +364,12 @@
                 });
                 btn.addEventListener('mouseleave', () => gsap.to(btn, { x: 0, y: 0, duration: 0.5 }));
             });
+
+			function explorar() {
+                gsap.to("main", { opacity: 0, scale: 0.9, duration: 0.5, onComplete: () => {
+                    window.location.href = '/shop';
+                }});
+            }
         </script>
 	</body>
 </html>
