@@ -1,0 +1,275 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="TECHNOVA | Finalização de Ordem">
+	<main class="checkout-container">
+		<header class="checkout-header">
+			<div class="badge">SEGURANÇA QUÂNTICA 256-BIT</div>
+			<h1>FINALIZAÇÃO DA <span>ORDEM</span></h1>
+			<p>Revise seu hardware e confirme os dados de entrega para autorizar a transação.</p>
+		</header>
+
+		<div class="checkout-layout">
+			<!-- FORMULÁRIO DE DADOS -->
+			<section class="checkout-form-section">
+				<div class="form-card">
+					<h3>01. DADOS DE ENTREGA</h3>
+					<div class="input-grid">
+						<div class="field">
+							<label>NOME COMPLETO</label>
+							<input type="text" id="cust-name" placeholder="Ex: Alex Vance" />
+						</div>
+						<div class="field">
+							<label>COMUNICAÇÃO NEURAL (E-MAIL)</label>
+							<input type="email" id="cust-email" placeholder="alex@technova.io" />
+						</div>
+						<div class="field full">
+							<label>ENDEREÇO DE ENTREGA</label>
+							<input type="text" id="cust-address" placeholder="Av. Paulista, 1000 - Apto 402" />
+						</div>
+						<div class="field">
+							<label>CIDADE / ESTADO</label>
+							<input type="text" id="cust-city" placeholder="São Paulo - SP" />
+						</div>
+						<div class="field">
+							<label>CEP</label>
+							<input type="text" id="cust-cep" placeholder="01310-100" />
+						</div>
+					</div>
+				</div>
+
+				<div class="form-card">
+					<h3>02. MÉTODO DE LIQUIDAÇÃO</h3>
+					<div class="payment-methods">
+						<label class="pay-option active">
+							<input type="radio" name="payment" value="pix" checked />
+							<span class="pay-title">⚡ PIX INSTANTÂNEO</span>
+							<span class="pay-sub">Aprovação em 0.4s com 5% de desconto</span>
+						</label>
+						<label class="pay-option">
+							<input type="radio" name="payment" value="crypto" />
+							<span class="pay-title">🪙 CRIPTOATIVO (USDT/BTC)</span>
+							<span class="pay-sub">Transação direto na blockchain</span>
+						</label>
+						<label class="pay-option">
+							<input type="radio" name="payment" value="card" />
+							<span class="pay-title">💳 CARTÃO QUANTUM</span>
+							<span class="pay-sub">Em até 12x sem juros</span>
+						</label>
+					</div>
+				</div>
+			</section>
+
+			<!-- RESUMO DO PEDIDO -->
+			<aside class="checkout-summary-section">
+				<div class="summary-card">
+					<h3>RESUMO DO ECOSSISTEMA</h3>
+					<div id="checkout-items-list" class="items-list">
+						<!-- Injetado via JS da sessão -->
+					</div>
+
+					<div class="calc-row">
+						<span>Subtotal</span>
+						<span id="summary-subtotal">R$ 0,00</span>
+					</div>
+					<div class="calc-row">
+						<span>Frete Quântico (Expresso)</span>
+						<span style="color: #00ff88;">GRÁTIS</span>
+					</div>
+					<div class="calc-row total">
+						<span>TOTAL DA ORDEM</span>
+						<span id="summary-total">R$ 0,00</span>
+					</div>
+
+					<button id="btn-submit-order" class="confirm-order-btn">
+						AUTORIZAR TRANSAÇÃO
+					</button>
+
+					<p class="security-note">🔒 Criptografia ponta-a-ponta garantida por protocolo Gemini Core.</p>
+				</div>
+			</aside>
+		</div>
+
+		<!-- MODAL DE SUCESSO -->
+		<div id="success-modal" class="modal-overlay">
+			<div class="modal-card">
+				<div class="success-orb">✓</div>
+				<h2>ORDEM CONFIRMADA</h2>
+				<p id="modal-desc">Sua transação foi processada com sucesso no bloco da TECHNOVA.</p>
+				<div class="protocol-code">PROTOCOLO: #TN-<span id="order-code"></span></div>
+				<button class="back-home-btn" onclick="window.location.href='/'">RETORNAR À BASE</button>
+			</div>
+		</div>
+	</main>
+</BaseLayout>
+
+<style>
+	.checkout-container { padding: 140px 5% 100px; min-height: 100vh; }
+	.checkout-header { max-width: 700px; margin-bottom: 50px; }
+	.badge { font-size: 0.6rem; letter-spacing: 3px; color: var(--accent); margin-bottom: 15px; border: 1px solid var(--accent); display: inline-block; padding: 5px 15px; border-radius: 50px; }
+	.checkout-header h1 { font-size: clamp(2.5rem, 5vw, 4.5rem); font-weight: 900; letter-spacing: -2px; line-height: 0.9; margin-bottom: 15px; }
+	.checkout-header h1 span { color: var(--accent); }
+	.checkout-header p { color: #888; font-size: 1.1rem; line-height: 1.6; }
+
+	.checkout-layout { display: flex; gap: 50px; align-items: flex-start; }
+	.checkout-form-section { flex: 1.4; display: flex; flex-direction: column; gap: 30px; }
+	.checkout-summary-section { flex: 1; position: sticky; top: 120px; }
+
+	.form-card, .summary-card { 
+		background: rgba(255,255,255,0.02); 
+		border: 1px solid rgba(255,255,255,0.06); 
+		border-radius: 25px; 
+		padding: 35px; 
+		backdrop-filter: blur(20px);
+	}
+
+	.form-card h3, .summary-card h3 { 
+		font-size: 0.85rem; 
+		font-weight: 900; 
+		letter-spacing: 2px; 
+		color: #bbb; 
+		margin-bottom: 25px; 
+	}
+
+	.input-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
+	.field { display: flex; flex-direction: column; gap: 8px; }
+	.field.full { grid-column: span 2; }
+	.field label { font-size: 0.65rem; font-weight: 800; letter-spacing: 1.5px; color: #777; }
+	.field input { 
+		background: rgba(255,255,255,0.04); 
+		border: 1px solid rgba(255,255,255,0.1); 
+		padding: 15px 18px; 
+		border-radius: 12px; 
+		color: white; 
+		font-size: 0.9rem; 
+		outline: none; 
+		transition: 0.3s;
+	}
+	.field input:focus { border-color: var(--accent); background: rgba(0, 242, 255, 0.03); box-shadow: 0 0 15px rgba(0, 242, 255, 0.2); }
+
+	.payment-methods { display: flex; flex-direction: column; gap: 15px; }
+	.pay-option { 
+		display: flex; flex-direction: column; gap: 4px; padding: 18px 22px; 
+		background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); 
+		border-radius: 15px; cursor: pointer; transition: 0.3s;
+	}
+	.pay-option input { display: none; }
+	.pay-option.active { border-color: var(--accent); background: rgba(0, 242, 255, 0.05); box-shadow: 0 0 20px rgba(0, 242, 255, 0.15); }
+	.pay-title { font-weight: 800; font-size: 0.85rem; letter-spacing: 1px; color: white; }
+	.pay-sub { font-size: 0.7rem; color: #888; }
+
+	.items-list { max-height: 250px; overflow-y: auto; margin-bottom: 25px; padding-right: 10px; }
+	.summary-item-row { display: flex; justify-content: space-between; align-items: center; padding: 14px 0; border-bottom: 1px solid rgba(255,255,255,0.05); }
+	.item-title { font-size: 0.85rem; font-weight: 700; }
+	.item-val { color: var(--accent); font-weight: 800; font-size: 0.85rem; }
+
+	.calc-row { display: flex; justify-content: space-between; font-size: 0.85rem; color: #888; margin-bottom: 12px; }
+	.calc-row.total { 
+		padding-top: 18px; margin-top: 18px; border-top: 1px solid rgba(255,255,255,0.1); 
+		color: white; font-size: 1.2rem; font-weight: 900; letter-spacing: 1px;
+	}
+	.calc-row.total span:last-child { color: var(--accent); }
+
+	.confirm-order-btn { 
+		width: 100%; padding: 22px; background: var(--accent); color: black; 
+		border: none; border-radius: 50px; font-weight: 900; font-size: 0.85rem; 
+		letter-spacing: 3px; text-transform: uppercase; cursor: pointer; 
+		margin-top: 25px; transition: 0.3s; box-shadow: 0 0 30px rgba(0, 242, 255, 0.3);
+	}
+	.confirm-order-btn:hover { transform: translateY(-3px) scale(1.02); box-shadow: 0 0 45px rgba(0, 242, 255, 0.7); }
+
+	.security-note { font-size: 0.65rem; color: #666; text-align: center; margin-top: 15px; letter-spacing: 0.5px; }
+
+	/* MODAL */
+	.modal-overlay { 
+		position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
+		background: rgba(0,0,0,0.85); backdrop-filter: blur(25px); 
+		display: none; align-items: center; justify-content: center; z-index: 3000;
+	}
+	.modal-card { 
+		background: #0a0a0a; border: 1px solid var(--accent); border-radius: 30px; 
+		padding: 50px; text-align: center; max-width: 480px; width: 90%; 
+		box-shadow: 0 0 60px rgba(0, 242, 255, 0.3); animation: popModal 0.4s cubic-bezier(0.2, 1, 0.2, 1);
+	}
+	@keyframes popModal { from { opacity: 0; transform: scale(0.85); } to { opacity: 1; transform: scale(1); } }
+	.success-orb { width: 70px; height: 70px; background: #00ff88; border-radius: 50%; color: black; font-size: 2rem; font-weight: 900; display: flex; align-items: center; justify-content: center; margin: 0 auto 25px; box-shadow: 0 0 30px #00ff88; }
+	.modal-card h2 { font-size: 1.8rem; font-weight: 900; letter-spacing: -1px; margin-bottom: 12px; }
+	.modal-card p { color: #888; font-size: 0.9rem; line-height: 1.5; margin-bottom: 25px; }
+	.protocol-code { background: rgba(255,255,255,0.05); padding: 12px; border-radius: 10px; font-family: monospace; font-size: 0.8rem; letter-spacing: 2px; color: var(--accent); margin-bottom: 30px; }
+	.back-home-btn { width: 100%; padding: 18px; background: white; color: black; border: none; border-radius: 50px; font-weight: 900; font-size: 0.75rem; letter-spacing: 2px; cursor: pointer; transition: 0.3s; }
+	.back-home-btn:hover { background: var(--accent); }
+
+	@media (max-width: 950px) {
+		.checkout-layout { flex-direction: column; }
+		.checkout-summary-section { width: 100%; position: static; }
+		.input-grid { grid-template-columns: 1fr; }
+		.field.full { grid-column: span 1; }
+	}
+</style>
+
+<script is:inline>
+	// 1. CARREGAR ITENS DO CARRINHO NA TELA
+	const cartData = JSON.parse(sessionStorage.getItem('technova_cart') || '[]');
+	const itemsList = document.getElementById('checkout-items-list');
+	const subtotalEl = document.getElementById('summary-subtotal');
+	const totalEl = document.getElementById('summary-total');
+
+	if (cartData.length === 0) {
+		itemsList.innerHTML = '<p style="color:#666; font-size:0.85rem; padding: 20px 0;">Nenhum item no ecossistema.</p>';
+	} else {
+		itemsList.innerHTML = cartData.map(item => `
+			<div class="summary-item-row">
+				<span class="item-title">${item.name}</span>
+				<span class="item-val">${item.price}</span>
+			</div>
+		`).join('');
+	}
+
+	const sumTotal = cartData.reduce((acc, p) => acc + parseFloat(p.price.replace('R$', '').replace('.', '').replace(',', '.').trim()), 0);
+	const formattedTotal = `R$ ${sumTotal.toLocaleString('pt-BR', {minimumFractionDigits: 2})}`;
+
+	subtotalEl.innerText = formattedTotal;
+	totalEl.innerText = formattedTotal;
+
+	// 2. SELEÇÃO DE PAGAMENTO
+	document.querySelectorAll('.pay-option').forEach(opt => {
+		opt.addEventListener('click', () => {
+			document.querySelectorAll('.pay-option').forEach(o => o.classList.remove('active'));
+			opt.classList.add('active');
+		});
+	});
+
+	// 3. FINALIZAR COMPRA COM FEEDBACK
+	const submitBtn = document.getElementById('btn-submit-order');
+	const modal = document.getElementById('success-modal');
+	const codeSpan = document.getElementById('order-code');
+
+	submitBtn.addEventListener('click', () => {
+		const name = document.getElementById('cust-name').value.trim();
+		const email = document.getElementById('cust-email').value.trim();
+
+		if (cartData.length === 0) {
+			alert('Seu carrinho está vazio. Adicione itens antes de finalizar.');
+			return;
+		}
+
+		if (!name || !email) {
+			alert('Por favor, preencha seu nome e e-mail de comunicação neural.');
+			return;
+		}
+
+		// Simulação de transação
+		submitBtn.innerText = 'PROCESSANDO TRANSAÇÃO...';
+		submitBtn.style.opacity = '0.7';
+
+		setTimeout(() => {
+			codeSpan.innerText = Math.random().toString(36).substring(2, 9).toUpperCase();
+			modal.style.display = 'flex';
+			
+			// Limpa o carrinho
+			sessionStorage.removeItem('technova_cart');
+			if (window.updateCartUI) window.updateCartUI();
+		}, 1000);
+	});
+</script>
