@@ -3,34 +3,102 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 
 export async function getStaticPaths() {
   const products = [
-    { id: 'nova-book', name: "NOVA BOOK ULTRA", price: "R$ 18.900,00", desc: "Hardware quântico.", img: "https://images.unsplash.com/photo-1525547719571-a2d4ac8945e2?q=80&w=1000" },
-    { id: 'quantum-gpu', name: "QUANTUM GPU X", price: "R$ 7.500,00", desc: "Placa de vídeo imersiva.", img: "https://images.unsplash.com/photo-1591488320449-011701bb6704?q=80&w=1000" },
-    { id: 'cyber-watch', name: "CYBER WATCH S", price: "R$ 3.200,00", desc: "Relógio neural.", img: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?q=80&w=1000" }
+    { id: 'nova-book', name: "NOVA BOOK ULTRA", price: "R$ 18.900,00", desc: "Computador quântico portátil com processamento neural integrado e autonomia estendida para tarefas de alta complexidade.", specs: ["CPU: Quantum Z1 24-Core", "RAM: 128GB LPDDR6", "Bateria: 48h Contínuas", "Ecrã: 16\" OLED 165Hz"], img: "https://images.unsplash.com/photo-1525547719571-a2d4ac8945e2?q=80&w=1000" },
+    { id: 'quantum-gpu', name: "QUANTUM GPU X", price: "R$ 7.500,00", desc: "Arquitetura de renderização quântica em tempo real para simulações holográficas e IA generativa ultra veloz.", specs: ["VRAM: 48GB GDDR7", "Clock: 5.4 GHz Boost", "Ray Tracing: Gen 5", "TDP: 160W Eco-Mode"], img: "https://images.unsplash.com/photo-1591488320449-011701bb6704?q=80&w=1000" },
+    { id: 'cyber-watch', name: "CYBER WATCH S", price: "R$ 3.200,00", desc: "Monitoramento de telemetria biológica com feedback neural háptico e construção ultraleve em titânio aeroespacial.", specs: ["Chassi: Titânio Grau 5", "Sensores: Bio-Neural 4.0", "Display: Cristal Safira", "Resistência: 100m Sub"], img: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?q=80&w=1000" },
+    { id: 'neural-phone', name: "NEURAL PHONE PRO", price: "R$ 9.400,00", desc: "O primeiro smartphone com barramento de sinapse direta para produtividade sem toque.", specs: ["Chip: Bionic Quantum 2", "Armazenamento: 2TB", "Câmera: 200MP Prism", "Rede: 6G Ready"], img: "https://images.unsplash.com/photo-1598327105666-5b89351aff97?q=80&w=1000" },
+    { id: 'void-pc', name: "VOID RIG QUANTUM", price: "R$ 29.800,00", desc: "Estação de trabalho extrema com resfriamento líquido criogênico e acabamento cerâmico.", specs: ["Dual CPU Quantum", "256GB ECC RAM", "4x 4TB NVMe Gen5", "Fonte: 1600W Titânio"], img: "https://images.unsplash.com/photo-1587202372775-e229f172b9d7?auto=format&fit=crop&q=80&w=1000" },
+    { id: 'cyber-display', name: "CYBER DISPLAY 8K", price: "R$ 14.500,00", desc: "Monitor de referência para criadores de mundos virtuais com taxa de contraste infinita.", specs: ["Resolução: 7680x4320", "Taxa: 240Hz", "Brilho: 2000 Nits", "HDR: Quantum Max"], img: "https://images.unsplash.com/photo-1527443224154-c4a3942d3acf?q=80&w=1000" }
   ];
-  return products.map(p => ({ params: { id: p.id }, props: { product: p } }));
+
+  return products.map((product) => ({
+    params: { id: product.id },
+    props: { product },
+  }));
 }
+
 const { product } = Astro.props;
 ---
-<BaseLayout>
-	<main class="detail-page">
-		<div class="container">
-			<img src={product.img} class="detail-img" />
-			<div class="content">
-				<h1>{product.name}</h1>
-				<p class="price">{product.price}</p>
-				<p class="desc">{product.desc}</p>
-				<button class="buy-now" onclick={`addToCart('${product.name}', '${product.price}')`}>ADQUIRIR AGORA</button>
+
+<BaseLayout title={`TECHNOVA | ${product.name}`}>
+	<main class="product-page">
+		<button class="back-link" onclick="history.back()">← VOLTAR AO CATÁLOGO</button>
+
+		<section class="product-viewport">
+			<div class="product-art">
+				<img src={product.img} alt={product.name} class="detail-img" />
 			</div>
-		</div>
+
+			<div class="product-content">
+				<span class="badge">HARDWARE CLASSE S</span>
+				<h1 class="prod-title">{product.name}</h1>
+				<p class="prod-price">{product.price}</p>
+				<p class="prod-desc">{product.desc}</p>
+
+				<div class="specs-box">
+					<h4>ESPECIFICAÇÕES TÉCNICAS</h4>
+					<div class="specs-grid">
+						{product.specs.map(spec => (
+							<div class="spec-card">
+								<span class="spec-label">PARAM</span>
+								<span class="spec-value">{spec}</span>
+							</div>
+						))}
+					</div>
+				</div>
+
+				<button class="buy-btn" onclick={`addToCart('${product.name}', '${product.price}')`}>
+					ADICIONAR À ORDEM
+				</button>
+			</div>
+		</section>
 	</main>
 </BaseLayout>
 
 <style>
-	.detail-page { padding: 150px 5%; min-height: 100vh; display: flex; align-items: center; }
-	.container { display: flex; gap: 80px; align-items: center; }
-	.detail-img { width: 50%; border-radius: 40px; box-shadow: 0 0 50px rgba(0,242,255,0.2); }
-	h1 { font-size: 5rem; font-weight: 900; letter-spacing: -4px; line-height: 0.9; }
-	.price { font-size: 2rem; color: var(--accent); margin: 20px 0; }
-	.desc { color: #888; margin-bottom: 40px; }
-	.buy-now { padding: 25px 50px; background: white; border: none; font-weight: 900; letter-spacing: 2px; width: 100%; }
+	.product-page { padding: 130px 5% 80px; min-height: 100vh; }
+	.back-link { background: transparent; border: 1px solid rgba(255,255,255,0.1); color: #888; padding: 10px 20px; border-radius: 50px; font-weight: 700; font-size: 0.75rem; letter-spacing: 1px; cursor: pointer; margin-bottom: 40px; transition: 0.3s; }
+	.back-link:hover { color: white; border-color: var(--accent); }
+
+	.product-viewport { display: flex; gap: 80px; align-items: center; }
+	.product-art { flex: 1; display: flex; justify-content: center; }
+	.detail-img { width: 100%; max-width: 550px; border-radius: 40px; filter: drop-shadow(0 25px 50px rgba(0, 242, 255, 0.15)); }
+
+	.product-content { flex: 1; max-width: 600px; }
+	.badge { font-size: 0.6rem; letter-spacing: 3px; color: var(--accent); margin-bottom: 15px; border: 1px solid var(--accent); display: inline-block; padding: 5px 15px; border-radius: 50px; }
+	.prod-title { font-size: clamp(2.5rem, 5vw, 4rem); font-weight: 900; letter-spacing: -2px; line-height: 0.9; margin-bottom: 15px; }
+	.prod-price { font-size: 2rem; color: var(--accent); font-weight: 300; margin-bottom: 25px; }
+	.prod-desc { color: #888; font-size: 1rem; line-height: 1.6; margin-bottom: 35px; }
+
+	.specs-box h4 { font-size: 0.7rem; letter-spacing: 2px; color: #555; margin-bottom: 15px; }
+	.specs-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; margin-bottom: 40px; }
+	.spec-card { background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.06); padding: 15px; border-radius: 12px; }
+	.spec-label { display: block; font-size: 0.55rem; color: var(--accent); letter-spacing: 2px; margin-bottom: 4px; }
+	.spec-value { font-size: 0.85rem; font-weight: 700; }
+
+	.buy-btn { 
+		width: 100%;
+		max-width: 320px;
+		background: var(--accent); 
+		border: 1.5px solid var(--accent); 
+		color: #000; 
+		padding: 18px 28px; 
+		border-radius: 50px; 
+		font-family: 'Inter', sans-serif;
+		font-weight: 900; 
+		font-size: 0.8rem;
+		letter-spacing: 3px; 
+		text-transform: uppercase;
+		cursor: pointer;
+		box-shadow: 0 0 30px rgba(0, 242, 255, 0.4);
+		transition: all 0.3s;
+	}
+	.buy-btn:hover { 
+		transform: translateY(-3px) scale(1.02);
+		box-shadow: 0 0 45px rgba(0, 242, 255, 0.8);
+	}
+
+	@media (max-width: 900px) {
+		.product-viewport { flex-direction: column; }
+	}
 </style>

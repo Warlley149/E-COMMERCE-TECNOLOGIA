@@ -1,96 +1,306 @@
 ---
 // src/layouts/BaseLayout.astro
+interface Props {
+  title?: string;
+}
+const { title = "TECHNOVA | Prestige Tech Experience" } = Astro.props;
 ---
+
 <html lang="pt-br">
 	<head>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width" />
-		<title>TECHNOVA | Premium Store</title>
+		<title>{title}</title>
 		<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700;900&display=swap" rel="stylesheet">
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js" is:inline></script>
 	</head>
 	<body>
 		<div id="custom-cursor"></div>
 
+		<!-- CARRINHO LATERAL -->
 		<div id="cart-sidebar" class="sidebar">
 			<div class="sidebar-header">
-				<h3>ECOSSISTEMA</h3>
-				<button id="close-cart">×</button>
+				<div class="sidebar-title-wrapper">
+					<h3>ECOSSISTEMA</h3>
+					<span class="sidebar-subtitle">Hardware selecionado</span>
+				</div>
+				<button id="close-cart" class="close-btn-sidebar" aria-label="Fechar carrinho">
+					<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+						<line x1="18" y1="6" x2="6" y2="18"></line>
+						<line x1="6" y1="6" x2="18" y2="18"></line>
+					</svg>
+				</button>
 			</div>
-			<div id="cart-items"></div>
+			<div id="cart-items" class="cart-scroll-area">
+				<p class="empty-msg">Nenhum hardware detectado.</p>
+			</div>
 			<div class="sidebar-footer">
-				<div class="total-row"><span>TOTAL</span><span id="cart-total">R$ 0,00</span></div>
+				<div class="total-row">
+					<span>TOTAL</span>
+					<span id="cart-total">R$ 0,00</span>
+				</div>
 				<button class="checkout-btn">FINALIZAR ORDEM</button>
 			</div>
 		</div>
 
+		<!-- NAVBAR COMPLETA COM HOME -->
 		<nav class="navbar">
-			<div class="logo" onclick="window.location.href='/'" style="cursor:pointer">TECH<span>NOVA</span></div>
+			<div class="logo" onclick="window.location.href='/'">TECH<span>NOVA</span></div>
 			<div class="nav-links">
+				<a href="/" class="nav-item magnetic">HOME</a>
 				<a href="/shop" class="nav-item magnetic">SHOP</a>
 				<a href="/labs" class="nav-item magnetic">LABS</a>
 			</div>
-			<button class="cart-trigger magnetic" id="open-cart">CART [<span id="cart-count">0</span>]</button>
+			<button class="cart-trigger magnetic" id="open-cart">
+				CART [<span id="cart-count">0</span>]
+			</button>
 		</nav>
 
-        <slot /> <!-- AS PÁGINAS VÃO APARECER AQUI -->
+		<!-- CONTEÚDO DA PÁGINA -->
+		<slot />
 
+		<!-- SUPORTE IA -->
         <div class="ai-trigger-wrapper" id="toggleChat">
-            <div class="ai-orb"><div class="orb-rings"></div><div class="orb-core"></div></div>
+            <div class="ai-orb">
+                <div class="orb-rings"></div>
+                <div class="orb-core"></div>
+            </div>
             <span class="orb-label">SUPORTE</span>
         </div>
+        
         <div class="chat-window" id="chatWindow">
             <div class="chat-header">
-                <div class="header-content"><div class="status-dot"></div><div class="text-block"><span class="ai-title">Suporte</span><span class="ai-status">Online</span></div></div>
-                <button id="closeChat" class="close-btn-chat">×</button>
+                <div class="header-content">
+                    <div class="status-dot"></div>
+                    <div class="text-block">
+                        <span class="ai-title">Suporte de Atendimento</span>
+                        <span class="ai-status">Online agora</span>
+                    </div>
+                </div>
+                <button id="closeChat" class="close-btn-chat">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                </button>
             </div>
-            <div class="messages" id="chatMessages"><div class="msg bot"><div class="bubble">Sistemas prontos.</div></div></div>
+            
+            <div class="messages" id="chatMessages">
+                <div class="msg bot">
+                    <div class="bubble">Sistemas prontos. Como posso auxiliar em sua jornada?</div>
+                </div>
+            </div>
+
             <div class="chat-input-group">
                 <div class="input-wrapper">
-                    <input type="text" id="userInput" placeholder="Dúvida?">
-                    <button id="sendBtn" class="send-icon-btn">➤</button>
+                    <input type="text" id="userInput" placeholder="Escreva sua dúvida...">
+                    <button id="sendBtn" class="send-icon-btn">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+                    </button>
                 </div>
             </div>
         </div>
 
 		<style is:global>
-			:root { --bg: #030303; --accent: #00f2ff; --accent-2: #7000ff; }
+			:root {
+				--bg: #030303;
+				--accent: #00f2ff;
+				--accent-2: #7000ff;
+				--glass: rgba(255, 255, 255, 0.03);
+			}
+
 			* { margin: 0; padding: 0; box-sizing: border-box; cursor: none !important; }
-			body { background: var(--bg); color: white; font-family: 'Inter', sans-serif; overflow-x: hidden; }
-			#custom-cursor { position: fixed; top: 0; left: 0; width: 12px; height: 12px; background: var(--accent); border-radius: 50%; pointer-events: none; z-index: 10000; mix-blend-mode: difference; transform: translate(-50%, -50%); opacity: 0; transition: width 0.3s, opacity 0.3s; }
+			body { background: var(--bg); color: white; font-family: 'Inter', sans-serif; overflow-x: hidden; transition: background 0.6s cubic-bezier(0.2, 1, 0.2, 1); }
+
+			/* CURSOR */
+			#custom-cursor {
+				position: fixed; top: 0; left: 0; width: 12px; height: 12px;
+				background: var(--accent); border-radius: 50%; pointer-events: none;
+				z-index: 10000; mix-blend-mode: difference; transform: translate(-50%, -50%);
+				opacity: 0; transition: width 0.3s, opacity 0.3s;
+			}
+
+			/* NAVBAR */
 			.navbar { position: fixed; width: 100%; top: 0; z-index: 100; display: flex; justify-content: space-between; align-items: center; padding: 30px 5%; backdrop-filter: blur(20px); border-bottom: 1px solid rgba(255,255,255,0.05); }
-			.logo { font-weight: 900; letter-spacing: 3px; } .logo span { color: var(--accent); }
-			.nav-links { display: flex; gap: 50px; } .nav-item { text-decoration: none; color: white; font-size: 0.7rem; font-weight: 700; letter-spacing: 2px; opacity: 0.5; }
-			.cart-trigger { background: white; color: black; border: none; padding: 12px 25px; border-radius: 50px; font-weight: 900; font-size: 0.65rem; }
-			.sidebar { position: fixed; right: -450px; top: 0; width: 450px; height: 100vh; background: #050505; z-index: 2000; padding: 50px; transition: 0.6s cubic-bezier(0.85, 0, 0.15, 1); border-left: 1px solid rgba(255,255,255,0.05); }
+			.logo { font-weight: 900; letter-spacing: 3px; cursor: pointer; }
+			.logo span { color: var(--accent); }
+			.nav-links { display: flex; gap: 40px; }
+			.nav-item { text-decoration: none; color: white; font-size: 0.75rem; font-weight: 700; letter-spacing: 2px; opacity: 0.6; transition: 0.3s; }
+			.nav-item:hover { opacity: 1; color: var(--accent); }
+			.cart-trigger { background: white; color: black; border: none; padding: 12px 25px; border-radius: 50px; font-weight: 900; font-size: 0.65rem; transition: 0.3s; cursor: pointer; }
+
+			/* SIDEBAR CARRINHO */
+			.sidebar { 
+				position: fixed; right: -450px; top: 0; width: 450px; height: 100vh; 
+				background: rgba(8, 8, 8, 0.95); backdrop-filter: blur(30px);
+				z-index: 2000; padding: 40px; transition: right 0.5s cubic-bezier(0.85, 0, 0.15, 1); 
+				border-left: 1px solid rgba(255, 255, 255, 0.08); box-shadow: -20px 0 60px rgba(0, 0, 0, 0.8);
+				display: flex; flex-direction: column; 
+			}
 			.sidebar.active { right: 0; }
-            .ai-trigger-wrapper { position: fixed; bottom: 30px; right: 30px; display: flex; flex-direction: column; align-items: center; gap: 5px; z-index: 1000; cursor: pointer; }
-            .orb-core { width: 30px; height: 30px; background: var(--accent); border-radius: 50%; box-shadow: 0 0 25px var(--accent); }
-            .chat-window { position: fixed; bottom: 100px; right: 30px; width: 360px; height: 500px; background: rgba(10,10,10,0.95); backdrop-filter: blur(25px); border-radius: 25px; border: 1px solid rgba(255,255,255,0.1); display: none; flex-direction: column; z-index: 1001; }
-            .messages { flex: 1; overflow-y: auto; padding: 20px; font-size: 0.85rem; }
-            .bubble { padding: 12px; border-radius: 15px; background: rgba(255,255,255,0.05); margin-bottom: 10px; }
+			.sidebar-header { display: flex; justify-content: space-between; align-items: center; padding-bottom: 25px; border-bottom: 1px solid rgba(255, 255, 255, 0.08); }
+			.sidebar-title-wrapper h3 { font-size: 1.1rem; font-weight: 900; letter-spacing: 2px; color: white; margin-bottom: 4px; }
+			.sidebar-subtitle { font-size: 0.65rem; color: #666; letter-spacing: 1px; text-transform: uppercase; }
+			.close-btn-sidebar { background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); color: #aaa; width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: 0.3s; }
+			.close-btn-sidebar:hover { background: rgba(255, 71, 87, 0.2); border-color: #ff4757; color: #ff4757; transform: rotate(90deg) scale(1.1); }
+			.cart-scroll-area { flex: 1; margin: 30px 0; overflow-y: auto; padding-right: 10px; }
+			.total-row { display: flex; justify-content: space-between; align-items: center; padding: 20px 0; border-top: 1px solid rgba(255, 255, 255, 0.08); font-weight: 900; font-size: 1.1rem; letter-spacing: 1px; }
+			.total-row span:last-child { color: var(--accent); }
+			.checkout-btn { width: 100%; padding: 20px; background: var(--accent); color: black; border: none; border-radius: 12px; font-weight: 900; font-size: 0.8rem; letter-spacing: 2px; cursor: pointer; transition: 0.3s; }
+			.checkout-btn:hover { box-shadow: 0 0 30px rgba(0, 242, 255, 0.4); transform: translateY(-2px); }
+
+			/* CHAT IA */
+            .ai-trigger-wrapper { position: fixed; bottom: 30px; right: 30px; display: flex; flex-direction: column; align-items: center; gap: 8px; z-index: 1000; cursor: pointer; }
+            .ai-orb { width: 60px; height: 60px; position: relative; display: flex; align-items: center; justify-content: center; }
+            .orb-core { width: 30px; height: 30px; background: var(--accent); border-radius: 50%; box-shadow: 0 0 25px var(--accent); transition: 0.3s; }
+            .ai-trigger-wrapper:hover .orb-core { transform: scale(1.2); box-shadow: 0 0 40px var(--accent); }
+            .orb-rings { position: absolute; width: 100%; height: 100%; border: 1px solid var(--accent); border-radius: 50%; opacity: 0.3; animation: pulseRing 2s infinite; }
+            @keyframes pulseRing { 0% { transform: scale(0.8); opacity: 0.8; } 100% { transform: scale(1.4); opacity: 0; } }
+            .orb-label { font-size: 9px; font-weight: 900; letter-spacing: 2px; color: var(--accent); opacity: 0.8; }
+            
+            .chat-window { position: fixed; bottom: 100px; right: 30px; width: 360px; height: 500px; background: rgba(10,10,10,0.85); backdrop-filter: blur(30px); border-radius: 24px; border: 1px solid rgba(255,255,255,0.1); display: none; flex-direction: column; z-index: 1001; box-shadow: 0 20px 50px rgba(0,0,0,0.5); overflow: hidden; }
+            .chat-header { padding: 20px; border-bottom: 1px solid rgba(255,255,255,0.05); display: flex; justify-content: space-between; align-items: center; }
+            .header-content { display: flex; align-items: center; gap: 12px; }
+            .status-dot { width: 8px; height: 8px; background: #00ff88; border-radius: 50%; box-shadow: 0 0 10px #00ff88; }
+            .ai-title { font-size: 0.85rem; font-weight: 800; color: white; display: block; }
+            .ai-status { font-size: 0.7rem; color: #666; }
+            .close-btn-chat { background: rgba(255,255,255,0.05); border: none; color: white; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: 0.3s; }
+            .close-btn-chat:hover { background: #ff4757; transform: rotate(90deg); }
+            .messages { flex: 1; overflow-y: auto; padding: 20px; display: flex; flex-direction: column; gap: 15px; }
+            .bubble { padding: 12px 16px; border-radius: 18px; background: rgba(255,255,255,0.05); font-size: 0.85rem; line-height: 1.5; color: #ddd; max-width: 85%; }
+            .user .bubble { background: var(--accent); color: black; font-weight: 600; align-self: flex-end; border-bottom-right-radius: 4px; }
+            .bot .bubble { border-bottom-left-radius: 4px; border: 1px solid rgba(255,255,255,0.05); }
+
+            .chat-input-group { padding: 20px; background: rgba(0,0,0,0.2); }
+            .input-wrapper { display: flex; align-items: center; background: rgba(255,255,255,0.05); padding: 6px 6px 6px 15px; border-radius: 50px; border: 1px solid rgba(255,255,255,0.1); transition: 0.3s; }
+            .input-wrapper:focus-within { border-color: var(--accent); background: rgba(255,255,255,0.08); }
+            .input-wrapper input { flex: 1; background: none; border: none; color: white; font-size: 0.85rem; outline: none; font-family: 'Inter', sans-serif; }
+            .send-icon-btn { background: var(--accent); border: none; width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; color: black; transition: 0.3s; }
+            .send-icon-btn:hover { transform: scale(1.1) rotate(-10deg); box-shadow: 0 0 15px var(--accent); }
 		</style>
 
-        <script is:inline>
-            // Lógica Global (Cursor, Chat, Carrinho)
-            const cursor = document.getElementById('custom-cursor');
-            document.addEventListener('mousemove', (e) => {
-                cursor.style.opacity = "1";
-                gsap.to(cursor, { x: e.clientX, y: e.clientY, duration: 0.1 });
-            });
-
-            let cart = [];
+		<script is:inline>
+            // LÓGICA GLOBAL DE SESSÃO DO CARRINHO
+            let cart = JSON.parse(sessionStorage.getItem('technova_cart') || '[]');
+            
+            window.updateCartUI = () => {
+                const count = document.getElementById('cart-count');
+                const items = document.getElementById('cart-items');
+                const totalDisplay = document.getElementById('cart-total');
+                if (!count || !items || !totalDisplay) return;
+                
+                count.innerText = cart.length;
+                if (cart.length === 0) {
+                    items.innerHTML = '<p class="empty-msg">Nenhum hardware detectado.</p>';
+                } else {
+                    items.innerHTML = cart.map(p => `
+                        <div style="padding:15px 0; border-bottom:1px solid rgba(255,255,255,0.05); display:flex; justify-content:space-between; align-items:center;">
+                            <span style="font-weight:700; font-size:0.85rem;">${p.name}</span>
+                            <span style="color:var(--accent); font-weight:800; font-size:0.85rem;">${p.price}</span>
+                        </div>`).join('');
+                }
+                const sum = cart.reduce((acc, p) => acc + parseFloat(p.price.replace('R$', '').replace('.', '').replace(',', '.').trim()), 0);
+                totalDisplay.innerText = `R$ ${sum.toLocaleString('pt-BR', {minimumFractionDigits: 2})}`;
+            };
+        
             window.addToCart = (name, price) => {
                 cart.push({name, price});
-                document.getElementById('cart-count').innerText = cart.length;
-                document.getElementById('cart-sidebar').classList.add('active');
+                sessionStorage.setItem('technova_cart', JSON.stringify(cart));
+                window.updateCartUI();
+                document.getElementById('cart-sidebar')?.classList.add('active');
             };
 
+            window.updateCartUI();
+
+            // CURSOR
+            const cursor = document.getElementById('custom-cursor');
+            document.addEventListener('mousemove', (e) => {
+                if (cursor) {
+                    cursor.style.opacity = "1";
+                    gsap.to(cursor, { x: e.clientX, y: e.clientY, duration: 0.1 });
+                }
+            });
+
+            // UI TRIGGERS
             const chatWin = document.getElementById('chatWindow');
-            document.getElementById('toggleChat').onclick = () => chatWin.style.display = 'flex';
-            document.getElementById('closeChat').onclick = () => chatWin.style.display = 'none';
-            document.getElementById('open-cart').onclick = () => document.getElementById('cart-sidebar').classList.add('active');
-            document.getElementById('close-cart').onclick = () => document.getElementById('cart-sidebar').classList.remove('active');
+            const aiTrigger = document.getElementById('toggleChat');
+            const closeChatBtn = document.getElementById('closeChat');
+            const cartSidebar = document.getElementById('cart-sidebar');
+            const openCartBtn = document.getElementById('open-cart');
+            const closeCartBtn = document.getElementById('close-cart');
+            const sendBtn = document.getElementById('sendBtn');
+            const userInput = document.getElementById('userInput');
+
+            if (aiTrigger && chatWin) {
+                aiTrigger.onclick = (e) => {
+                    e.stopPropagation();
+                    chatWin.style.display = 'flex';
+                    gsap.from(chatWin, { y: 20, opacity: 0, duration: 0.3 });
+                };
+            }
+
+            if (closeChatBtn && chatWin) {
+                closeChatBtn.onclick = (e) => {
+                    e.stopPropagation();
+                    chatWin.style.display = 'none';
+                };
+            }
+
+            if (openCartBtn && cartSidebar) {
+                openCartBtn.onclick = (e) => {
+                    e.stopPropagation();
+                    cartSidebar.classList.add('active');
+                };
+            }
+
+            if (closeCartBtn && cartSidebar) {
+                closeCartBtn.onclick = (e) => {
+                    e.stopPropagation();
+                    cartSidebar.classList.remove('active');
+                };
+            }
+
+            window.addEventListener('click', (e) => {
+                if (chatWin && chatWin.style.display === 'flex') {
+                    if (!chatWin.contains(e.target) && !aiTrigger.contains(e.target)) {
+                        chatWin.style.display = 'none';
+                    }
+                }
+                if (cartSidebar && cartSidebar.classList.contains('active')) {
+                    const isBuyBtn = e.target.classList.contains('buy-btn');
+                    if (!cartSidebar.contains(e.target) && !openCartBtn.contains(e.target) && !isBuyBtn) {
+                        cartSidebar.classList.remove('active');
+                    }
+                }
+            });
+
+            // CHAT BOT
+            const handleSendMessage = async () => {
+                if (!userInput || !userInput.value.trim()) return;
+                const text = userInput.value.trim();
+                const messages = document.getElementById('chatMessages');
+                messages.innerHTML += `<div class="msg user"><div class="bubble">${text}</div></div>`;
+                userInput.value = "";
+                messages.scrollTop = messages.scrollHeight;
+
+                const tempId = Date.now();
+                messages.innerHTML += `<div class="msg bot" id="temp-${tempId}"><div class="bubble">...</div></div>`;
+                messages.scrollTop = messages.scrollHeight;
+
+                try {
+                    const res = await fetch('/api/chat', { method: 'POST', body: JSON.stringify({ message: text }) });
+                    const data = await res.json();
+                    const tempElem = document.getElementById(`temp-${tempId}`);
+                    if (tempElem) tempElem.remove();
+                    messages.innerHTML += `<div class="msg bot"><div class="bubble">${data.text}</div></div>`;
+                } catch (err) {
+                    const tempElem = document.getElementById(`temp-${tempId}`);
+                    if (tempElem) tempElem.innerHTML = `<div class="bubble">Erro na conexão neural.</div>`;
+                }
+                messages.scrollTop = messages.scrollHeight;
+            };
+
+            if (sendBtn && userInput) {
+                sendBtn.onclick = handleSendMessage;
+                userInput.onkeypress = (e) => { if(e.key === 'Enter') handleSendMessage(); };
+            }
         </script>
 	</body>
 </html>

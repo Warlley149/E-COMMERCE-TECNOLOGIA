@@ -1,49 +1,69 @@
 ---
-import Layout from '../layouts/Layout.astro';
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const experiments = [
+  { code: "EXP-01", title: "NEURAL SYNC 2.0", status: "EM TESTES", desc: "Sincronização de comandos mentais diretamente no kernel do SO via nanotransmissores." },
+  { code: "EXP-02", title: "CRYSTAL BATTERY", status: "PROTÓTIPO", desc: "Célula energética de estado sólido à base de grafeno com autonomia de 14 dias contínuos." },
+  { code: "EXP-03", title: "HOLOGRAM DISPLAY", status: "FIBRA QUÂNTICA", desc: "Projeção tridimensional volumétrica sem necessidade de óculos ou periféricos." }
+];
 ---
 
-<Layout>
+<BaseLayout title="TECHNOVA | Labs & Inovação">
 	<main class="labs-page">
 		<section class="labs-hero">
-			<div class="glitch-wrapper">
-				<h1 class="labs-title" data-text="TECHNOVA LABS">TECHNOVA LABS</h1>
-			</div>
-			<p class="labs-subtitle">Área de prototipagem e experimentação quântica.</p>
+			<span class="badge">PESQUISA & DESENVOLVIMENTO</span>
+			<h1 class="labs-heading">TECHNOVA <span>LABS</span></h1>
+			<p class="labs-desc">Onde as leis da física encontram a computação do século XXII.</p>
 		</section>
 
-		<section class="experiment-area">
-			<div class="exp-card magnetic">
-				<div class="exp-icon">⚛️</div>
-				<h3>Projeto Neural-X</h3>
-				<p>Interface cérebro-computador em fase beta.</p>
-				<div class="status-bar"><div class="progress"></div></div>
-			</div>
-			<!-- Adicione mais experimentos -->
+		<section class="experiments-grid">
+			{experiments.map(exp => (
+				<div class="exp-card">
+					<div class="exp-top">
+						<span class="exp-code">{exp.code}</span>
+						<span class="exp-status">{exp.status}</span>
+					</div>
+					<h2>{exp.title}</h2>
+					<p>{exp.desc}</p>
+					<div class="telemetry-bar"><div class="telemetry-fill"></div></div>
+				</div>
+			))}
 		</section>
 	</main>
-</Layout>
+</BaseLayout>
 
 <style>
-	.labs-page { background: #000; padding-top: 150px; overflow: hidden; }
-	.labs-hero { height: 60vh; display: flex; flex-direction: column; align-items: center; justify-content: center; }
-	
-	.labs-title { font-size: 6rem; font-weight: 900; color: transparent; -webkit-text-stroke: 1px var(--accent); position: relative; }
-	.labs-title::after { content: attr(data-text); position: absolute; left: 0; top: 0; color: var(--accent); clip-path: inset(50% 0 0 0); animation: glitch 4s infinite; }
-	
-	@keyframes glitch {
-		0% { transform: translate(0); }
-		20% { transform: translate(-5px, 5px); }
-		40% { transform: translate(-5px, -5px); }
-		60% { transform: translate(5px, 5px); }
-		80% { transform: translate(5px, -5px); }
-		100% { transform: translate(0); }
-	}
+	.labs-page { padding: 150px 5% 100px; min-height: 100vh; }
+	.labs-hero { text-align: center; max-width: 800px; margin: 0 auto 80px; }
+	.badge { font-size: 0.6rem; letter-spacing: 3px; color: var(--accent); margin-bottom: 20px; border: 1px solid var(--accent); display: inline-block; padding: 5px 15px; border-radius: 50px; }
+	.labs-heading { font-size: clamp(3.5rem, 8vw, 6rem); font-weight: 900; letter-spacing: -3px; line-height: 0.9; margin-bottom: 20px; }
+	.labs-heading span { color: var(--accent); }
+	.labs-desc { color: #888; font-size: 1.2rem; }
 
-	.experiment-area { display: flex; justify-content: center; gap: 50px; padding: 100px 5%; }
+	.experiments-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px; }
 	.exp-card { 
-		width: 300px; padding: 40px; background: rgba(255,255,255,0.02); 
-		border: 1px solid rgba(0,242,255,0.2); border-radius: 20px; text-align: center;
+		background: rgba(255,255,255,0.02); 
+		border: 1px solid rgba(0, 242, 255, 0.15); 
+		border-radius: 25px; 
+		padding: 35px; 
+		transition: 0.4s;
 	}
-	.status-bar { width: 100%; height: 2px; background: #111; margin-top: 20px; }
-	.progress { width: 65%; height: 100%; background: var(--accent); box-shadow: 0 0 10px var(--accent); }
+	.exp-card:hover { 
+		border-color: var(--accent); 
+		background: rgba(0, 242, 255, 0.03); 
+		transform: translateY(-8px);
+		box-shadow: 0 0 30px rgba(0, 242, 255, 0.15);
+	}
+	.exp-top { display: flex; justify-content: space-between; margin-bottom: 20px; font-size: 0.7rem; font-weight: 900; letter-spacing: 2px; }
+	.exp-code { color: var(--accent); }
+	.exp-status { color: #00ff88; }
+	.exp-card h2 { font-size: 1.6rem; font-weight: 900; margin-bottom: 12px; }
+	.exp-card p { color: #777; line-height: 1.6; font-size: 0.9rem; margin-bottom: 30px; }
+	.telemetry-bar { width: 100%; height: 2px; background: rgba(255,255,255,0.1); border-radius: 2px; overflow: hidden; }
+	.telemetry-fill { width: 70%; height: 100%; background: var(--accent); box-shadow: 0 0 10px var(--accent); animation: scan 3s infinite ease-in-out; }
+
+	@keyframes scan {
+		0%, 100% { transform: translateX(-100%); }
+		50% { transform: translateX(100%); }
+	}
 </style>
