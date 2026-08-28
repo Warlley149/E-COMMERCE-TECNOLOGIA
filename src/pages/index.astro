@@ -68,7 +68,7 @@
 			</section>
 		</main>
 
-		<!-- SUPORTE IA -->
+		<!-- SUPORTE IA REFINADO -->
         <div class="ai-trigger-wrapper" id="toggleChat">
             <div class="ai-orb">
                 <div class="orb-rings"></div>
@@ -86,19 +86,26 @@
                         <span class="ai-status">Online agora</span>
                     </div>
                 </div>
-                <button id="closeChat" class="close-btn-chat">×</button>
+                <!-- NOVO BOTÃO X COM SVG -->
+                <button id="closeChat" class="close-btn-chat">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                </button>
             </div>
+            
             <div class="messages" id="chatMessages">
                 <div class="msg bot">
                     <div class="bubble">Sistemas prontos. Como posso auxiliar em sua jornada?</div>
                 </div>
             </div>
-            <div id="chat-loader" class="skeleton-container" style="display:none">
-                <div class="skeleton-line"></div>
-            </div>
-            <div class="chat-input-area">
-                <input type="text" id="userInput" placeholder="O que você precisa?">
-                <button id="sendBtn" class="magnetic">➤</button>
+
+            <!-- FORMULÁRIO REESTILIZADO -->
+            <div class="chat-input-group">
+                <div class="input-wrapper">
+                    <input type="text" id="userInput" placeholder="Escreva sua dúvida...">
+                    <button id="sendBtn" class="send-icon-btn">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+                    </button>
+                </div>
             </div>
         </div>
 
@@ -168,117 +175,194 @@
 			.sidebar.active { right: 0; }
 			.checkout-btn { width: 100%; padding: 22px; background: var(--accent); color: black; border: none; font-weight: 900; margin-top: 30px; letter-spacing: 2px; }
 
-			/* IA E ORB */
-            .ai-trigger-wrapper { position: fixed; bottom: 30px; right: 30px; display: flex; flex-direction: column; align-items: center; gap: 5px; z-index: 1000; cursor: pointer; }
+			/* IA SUPORTE - DESIGN ULTRA HD */
+            .ai-trigger-wrapper { 
+                position: fixed; bottom: 30px; right: 30px; 
+                display: flex; flex-direction: column; align-items: center; 
+                gap: 8px; z-index: 1000; cursor: pointer; 
+            }
             .ai-orb { width: 60px; height: 60px; position: relative; display: flex; align-items: center; justify-content: center; }
-            .orb-core { width: 30px; height: 30px; background: var(--accent); border-radius: 50%; box-shadow: 0 0 25px var(--accent); }
+            .orb-core { width: 30px; height: 30px; background: var(--accent); border-radius: 50%; box-shadow: 0 0 25px var(--accent); transition: 0.3s; }
+            .ai-trigger-wrapper:hover .orb-core { transform: scale(1.2); box-shadow: 0 0 40px var(--accent); }
             .orb-rings { position: absolute; width: 100%; height: 100%; border: 1px solid var(--accent); border-radius: 50%; opacity: 0.3; animation: pulseRing 2s infinite; }
             @keyframes pulseRing { 0% { transform: scale(0.8); opacity: 0.8; } 100% { transform: scale(1.4); opacity: 0; } }
-            .orb-label { font-size: 9px; font-weight: 900; letter-spacing: 2px; color: var(--accent); }
+            .orb-label { font-size: 9px; font-weight: 900; letter-spacing: 2px; color: var(--accent); opacity: 0.8; }
             
-            .chat-window { position: fixed; bottom: 100px; right: 30px; width: 360px; height: 500px; background: rgba(10,10,10,0.95); backdrop-filter: blur(25px); border-radius: 25px; border: 1px solid rgba(255,255,255,0.1); display: none; flex-direction: column; z-index: 1001; }
+            .chat-window { 
+                position: fixed; bottom: 100px; right: 30px; 
+                width: 360px; height: 500px; 
+                background: rgba(10,10,10,0.8); backdrop-filter: blur(30px); 
+                border-radius: 24px; border: 1px solid rgba(255,255,255,0.1); 
+                display: none; flex-direction: column; z-index: 1001; 
+                box-shadow: 0 20px 50px rgba(0,0,0,0.5); overflow: hidden;
+                box-shadow: inset 0 0 20px rgba(255,255,255,0.02);
+            }
+
             .chat-header { padding: 20px; border-bottom: 1px solid rgba(255,255,255,0.05); display: flex; justify-content: space-between; align-items: center; }
-            .status-dot { width: 7px; height: 7px; background: #00ff88; border-radius: 50%; box-shadow: 0 0 10px #00ff88; }
-            .ai-title { font-size: 0.8rem; font-weight: 800; color: white; display: block; }
-            .ai-status { font-size: 0.65rem; color: #444; }
-            .messages { flex: 1; overflow-y: auto; padding: 20px; font-size: 0.85rem; color: #ccc; }
+            .header-content { display: flex; align-items: center; gap: 12px; }
+            .status-dot { width: 8px; height: 8px; background: #00ff88; border-radius: 50%; box-shadow: 0 0 10px #00ff88; }
+            .ai-title { font-size: 0.85rem; font-weight: 800; color: white; display: block; }
+            .ai-status { font-size: 0.7rem; color: #666; }
+            
+            .close-btn-chat { 
+                background: rgba(255,255,255,0.05); border: none; color: white; 
+                width: 32px; height: 32px; border-radius: 50%; 
+                display: flex; align-items: center; justify-content: center; 
+                cursor: pointer; transition: 0.3s;
+            }
+            .close-btn-chat:hover { background: #ff4757; transform: rotate(90deg); }
+
+            .messages { flex: 1; overflow-y: auto; padding: 20px; display: flex; flex-direction: column; gap: 15px; }
+            .bubble { padding: 12px 16px; border-radius: 18px; background: rgba(255,255,255,0.05); font-size: 0.85rem; line-height: 1.5; color: #ddd; max-width: 85%; }
+            .user .bubble { background: var(--accent); color: black; font-weight: 600; align-self: flex-end; border-bottom-right-radius: 4px; }
+            .bot .bubble { border-bottom-left-radius: 4px; border: 1px solid rgba(255,255,255,0.05); }
+
+            /* INPUT GROUP REFINADO */
+            .chat-input-group { padding: 20px; background: rgba(0,0,0,0.2); }
+            .input-wrapper { 
+                display: flex; align-items: center; background: rgba(255,255,255,0.05); 
+                padding: 6px 6px 6px 15px; border-radius: 50px; 
+                border: 1px solid rgba(255,255,255,0.1); transition: 0.3s;
+            }
+            .input-wrapper:focus-within { border-color: var(--accent); background: rgba(255,255,255,0.08); }
+            
+            .input-wrapper input { 
+                flex: 1; background: none; border: none; color: white; 
+                font-size: 0.85rem; outline: none; font-family: 'Inter', sans-serif;
+            }
+
+            .send-icon-btn { 
+                background: var(--accent); border: none; width: 36px; height: 36px; 
+                border-radius: 50%; display: flex; align-items: center; justify-content: center; 
+                cursor: pointer; color: black; transition: 0.3s;
+            }
+            .send-icon-btn:hover { transform: scale(1.1) rotate(-10deg); box-shadow: 0 0 15px var(--accent); }
 		</style>
 
-		<script>
-			// --- LÓGICA DO CARRINHO ---
-			let cart = [];
-			const updateCartUI = () => {
-				const count = document.getElementById('cart-count');
-				const items = document.getElementById('cart-items');
-				const totalDisplay = document.getElementById('cart-total');
-				count.innerText = cart.length;
-				items.innerHTML = cart.length === 0 ? '<p>Vazio.</p>' : cart.map(p => `<div style="padding:15px 0; border-bottom:1px solid #111; display:flex; justify-content:space-between"><span>${p.name}</span><span style="color:var(--accent)">${p.price}</span></div>`).join('');
-				const sum = cart.reduce((acc, p) => acc + parseFloat(p.price.replace('R$', '').replace('.', '').replace(',', '.')), 0);
-				totalDisplay.innerText = `R$ ${sum.toLocaleString('pt-BR', {minimumFractionDigits: 2})}`;
-			};
-
-			window.addToCart = (name, price) => {
-				cart.push({name, price});
-				updateCartUI();
-				document.getElementById('cart-sidebar').classList.add('active');
-			};
-
-			// --- CURSOR ---
-			const cursor = document.getElementById('custom-cursor');
-			document.addEventListener('mousemove', (e) => {
-				cursor.style.opacity = "1";
-				gsap.to(cursor, { x: e.clientX, y: e.clientY, duration: 0.1 });
-			});
-
-			// --- PRODUTOS & FOCO IMERSIVO (REATIVADO) ---
-			const products = [
-				{ name: "NOVA BOOK ULTRA", price: "R$ 18.900,00", img: "https://images.unsplash.com/photo-1525547719571-a2d4ac8945e2?q=80&w=500" },
-				{ name: "QUANTUM GPU X", price: "R$ 7.500,00", img: "https://images.unsplash.com/photo-1591488320449-011701bb6704?q=80&w=500" },
-				{ name: "CYBER WATCH S", price: "R$ 3.200,00", img: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?q=80&w=500" }
-			];
-
-			const grid = document.getElementById('grid');
-			products.forEach(p => {
-				const card = document.createElement('div');
-				card.className = 'card magnetic';
-				card.innerHTML = `
-					<img src="${p.img}" class="prod-img" />
-					<h3 style="font-weight: 900; font-size: 1.5rem;">${p.name}</h3>
-					<p style="color: var(--accent); margin-top: 10px; font-weight: 700;">${p.price}</p>
-					<button class="buy-btn" onclick="addToCart('${p.name}', '${p.price}')">ADICIONAR À ORDEM</button>
-				`;
-
-				// INTERAÇÃO DE FOCO IMERSIVO
-				card.addEventListener('mouseenter', () => {
-					gsap.to("body", { backgroundColor: "#010101", duration: 0.5 });
-					gsap.to(".card", { opacity: 0.1, filter: "blur(5px)", duration: 0.5 });
-					gsap.to(card, { opacity: 1, filter: "blur(0px)", scale: 1.05, borderAll: "1px solid #00f2ff", duration: 0.5 });
-					gsap.to(card.querySelector('img'), { scale: 1.1, y: -20, duration: 0.5 });
-				});
-
-				card.addEventListener('mouseleave', () => {
-					gsap.to("body", { backgroundColor: "#030303", duration: 0.5 });
-					gsap.to(".card", { opacity: 1, filter: "blur(0px)", scale: 1, duration: 0.5 });
-					gsap.to(card.querySelector('img'), { scale: 1, y: 0, duration: 0.5 });
-				});
-
-				grid.appendChild(card);
-			});
-
-			// UI Triggers
-			document.getElementById('toggleChat').onclick = () => document.getElementById('chatWindow').style.display = 'flex';
-			document.getElementById('closeChat').onclick = () => document.getElementById('chatWindow').style.display = 'none';
-			document.getElementById('open-cart').onclick = () => document.getElementById('cart-sidebar').classList.add('active');
-			document.getElementById('close-cart').onclick = () => document.getElementById('cart-sidebar').classList.remove('active');
-
-			// Magnetic Effect
-			const applyMagnetic = () => {
-				document.querySelectorAll('.magnetic').forEach(btn => {
-					btn.addEventListener('mousemove', (e) => {
-						const pos = btn.getBoundingClientRect();
-						const x = (e.pageX - pos.left - pos.width/2) * 0.3;
-						const y = (e.pageY - pos.top - pos.height/2) * 0.3;
-						gsap.to(btn, { x, y, duration: 0.3 });
-					});
-					btn.addEventListener('mouseleave', () => gsap.to(btn, { x: 0, y: 0, duration: 0.5 }));
-				});
-			};
-			applyMagnetic();
-
-			// IA Logic
-			const sendBtn = document.getElementById('sendBtn');
-			sendBtn.onclick = async () => {
-				const input = document.getElementById('userInput');
-				const messages = document.getElementById('chatMessages');
-				if(!input.value) return;
-				messages.innerHTML += `<div class="msg user" style="text-align:right; color:var(--accent-2)"><b>Você:</b> ${input.value}</div>`;
-				const prompt = input.value;
-				input.value = "";
-				const res = await fetch('/api/chat', { method: 'POST', body: JSON.stringify({ message: prompt }) });
-				const data = await res.json();
-				messages.innerHTML += `<div class="msg bot" style="margin-top:10px"><b>AI:</b> ${data.text}</div>`;
-				messages.scrollTop = messages.scrollHeight;
-			};
-		</script>
+		<script is:inline>
+            // 1. LÓGICA DO CARRINHO
+            let cart = [];
+            const updateCartUI = () => {
+                const count = document.getElementById('cart-count');
+                const items = document.getElementById('cart-items');
+                const totalDisplay = document.getElementById('cart-total');
+                count.innerText = cart.length;
+                items.innerHTML = cart.length === 0 ? '<p>Vazio.</p>' : cart.map(p => `
+                    <div style="padding:15px 0; border-bottom:1px solid #111; display:flex; justify-content:space-between">
+                        <span>${p.name}</span>
+                        <span style="color:var(--accent)">${p.price}</span>
+                    </div>`).join('');
+                const sum = cart.reduce((acc, p) => acc + parseFloat(p.price.replace('R$', '').replace('.', '').replace(',', '.')), 0);
+                totalDisplay.innerText = `R$ ${sum.toLocaleString('pt-BR', {minimumFractionDigits: 2})}`;
+            };
+        
+            window.addToCart = (name, price) => {
+                cart.push({name, price});
+                updateCartUI();
+                document.getElementById('cart-sidebar').classList.add('active');
+            };
+        
+            // 2. CURSOR ULTRA SMOOTH
+            const cursor = document.getElementById('custom-cursor');
+            document.addEventListener('mousemove', (e) => {
+                cursor.style.opacity = "1";
+                gsap.to(cursor, { x: e.clientX, y: e.clientY, duration: 0.1 });
+            });
+        
+            // 3. PRODUTOS & FOCO IMERSIVO
+            const products = [
+                { name: "NOVA BOOK ULTRA", price: "R$ 18.900,00", img: "https://images.unsplash.com/photo-1525547719571-a2d4ac8945e2?q=80&w=500" },
+                { name: "QUANTUM GPU X", price: "R$ 7.500,00", img: "https://images.unsplash.com/photo-1591488320449-011701bb6704?q=80&w=500" },
+                { name: "CYBER WATCH S", price: "R$ 3.200,00", img: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?q=80&w=500" }
+            ];
+        
+            const grid = document.getElementById('grid');
+            products.forEach(p => {
+                const card = document.createElement('div');
+                card.className = 'card magnetic';
+                card.innerHTML = `
+                    <img src="${p.img}" class="prod-img" />
+                    <h3 style="font-weight: 900; font-size: 1.5rem;">${p.name}</h3>
+                    <p style="color: var(--accent); margin-top: 10px; font-weight: 700;">${p.price}</p>
+                    <button class="buy-btn" onclick="addToCart('${p.name}', '${p.price}')">ADICIONAR À ORDEM</button>
+                `;
+        
+                card.addEventListener('mouseenter', () => {
+                    gsap.to("body", { backgroundColor: "#010101", duration: 0.5 });
+                    gsap.to(".card", { opacity: 0.1, filter: "blur(5px)", duration: 0.5 });
+                    gsap.to(card, { opacity: 1, filter: "blur(0px)", scale: 1.05, duration: 0.5 });
+                });
+        
+                card.addEventListener('mouseleave', () => {
+                    gsap.to("body", { backgroundColor: "#030303", duration: 0.5 });
+                    gsap.to(".card", { opacity: 1, filter: "blur(0px)", scale: 1, duration: 0.5 });
+                });
+        
+                grid.appendChild(card);
+            });
+        
+            // 4. UI TRIGGERS (CHAT E CARRINHO)
+            const chatWin = document.getElementById('chatWindow');
+            const aiTrigger = document.getElementById('toggleChat');
+            const sendBtn = document.getElementById('sendBtn');
+            const userInput = document.getElementById('userInput');
+        
+            aiTrigger.onclick = (e) => {
+                e.stopPropagation();
+                chatWin.style.display = 'flex';
+                gsap.from(chatWin, { y: 20, opacity: 0, duration: 0.3 });
+            };
+        
+            document.getElementById('closeChat').onclick = () => { chatWin.style.display = 'none'; };
+            document.getElementById('open-cart').onclick = () => { document.getElementById('cart-sidebar').classList.add('active'); };
+            document.getElementById('close-cart').onclick = () => { document.getElementById('cart-sidebar').classList.remove('active'); };
+        
+            // FECHAR CHAT AO CLICAR FORA
+            window.addEventListener('click', (e) => {
+                if (chatWin.style.display === 'flex') {
+                    if (!chatWin.contains(e.target) && !aiTrigger.contains(e.target)) {
+                        chatWin.style.display = 'none';
+                    }
+                }
+            });
+        
+            // 5. LÓGICA DE MENSAGEM DA IA
+            const handleSendMessage = async () => {
+                const text = userInput.value.trim();
+                if(!text) return;
+                
+                const messages = document.getElementById('chatMessages');
+                messages.innerHTML += `<div class="msg user"><div class="bubble">${text}</div></div>`;
+                userInput.value = "";
+                messages.scrollTop = messages.scrollHeight;
+        
+                const tempId = Date.now();
+                messages.innerHTML += `<div class="msg bot" id="temp-${tempId}"><div class="bubble">...</div></div>`;
+        
+                try {
+                    const res = await fetch('/api/chat', { method: 'POST', body: JSON.stringify({ message: text }) });
+                    const data = await res.json();
+                    document.getElementById(`temp-${tempId}`).remove();
+                    messages.innerHTML += `<div class="msg bot"><div class="bubble">${data.text}</div></div>`;
+                } catch (err) {
+                    document.getElementById(`temp-${tempId}`).innerHTML = `<div class="bubble">Erro na conexão.</div>`;
+                }
+                messages.scrollTop = messages.scrollHeight;
+            };
+        
+            sendBtn.onclick = handleSendMessage;
+            userInput.onkeypress = (e) => { if(e.key === 'Enter') handleSendMessage(); };
+        
+            // 6. EFEITO MAGNÉTICO
+            document.querySelectorAll('.magnetic').forEach(btn => {
+                btn.addEventListener('mousemove', (e) => {
+                    const pos = btn.getBoundingClientRect();
+                    const x = (e.pageX - pos.left - pos.width/2) * 0.3;
+                    const y = (e.pageY - pos.top - pos.height/2) * 0.3;
+                    gsap.to(btn, { x, y, duration: 0.3 });
+                });
+                btn.addEventListener('mouseleave', () => gsap.to(btn, { x: 0, y: 0, duration: 0.5 }));
+            });
+        </script>
 	</body>
 </html>
