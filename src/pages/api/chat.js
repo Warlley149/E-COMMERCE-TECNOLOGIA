@@ -1,20 +1,51 @@
-import { GoogleGenerativeAI } from "@google/generative-ai";
+const getBackendUrl = () => import.meta.env.CHATBOT_API_URL || "http://localhost:3000";
+
+const proxyResponse = async (response) => new Response(await response.text(), {
+  status: response.status,
+  headers: {
+    "Content-Type": response.headers.get("Content-Type") || "application/json",
+  },
+});
+
+export const GET = async () => {
+  try {
+    const response = await fetch(`${getBackendUrl()}/api/chat/initial-message`, {
+      signal: AbortSignal.timeout(30000),
+    });
+
+    return proxyResponse(response);
+  } catch (error) {
+    console.error("Erro ao carregar saudação do chatbot:", error);
+
+    return new Response(JSON.stringify({
+      error: "Não foi possível carregar a saudação do atendimento.",
+    }), {
+      status: 502,
+      headers: { "Content-Type": "application/json" },
+    });
+  }
+};
 
 export const POST = async ({ request }) => {
-  const data = await request.json();
-  const genAI = new GoogleGenerativeAI(import.meta.env.GEMINI_API_KEY);
-  const model = genAI.getGenerativeModel({ model: "gemini-pro" });
-
   try {
-    const result = await model.generateContent(data.message);
-    const response = await result.response;
-    const text = response.text();
-    
-    return new Response(JSON.stringify({ text }), {
-      status: 200,
-      headers: { "Content-Type": "application/json" }
+    const data = await request.json();
+
+    const response = await fetch(`${getBackendUrl()}/api/chat`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data),
+      signal: AbortSignal.timeout(30000),
     });
+
+    return proxyResponse(response);
   } catch (error) {
-    return new Response(JSON.stringify({ error: "Erro no servidor" }), { status: 500 });
+    console.error("Erro ao conectar ao backend do chatbot:", error);
+
+    return new Response(JSON.stringify({
+      error: "Não foi possível conectar ao serviço de atendimento.",
+    }), {
+      status: 502,
+      headers: { "Content-Type": "application/json" },
+    });
   }
 };
